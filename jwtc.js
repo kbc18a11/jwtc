@@ -6,7 +6,7 @@ const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
  *  @param {string} method
  *  @param {Object} body
  */
-jwtc = (url, method, token,body) => {
+jwtc = (url, method, token, body) => {
     return new Promise((resolve, reject) => {
         //XMLHttpRequestのインスタンス化
         const xhr = new XMLHttpRequest();
@@ -27,13 +27,13 @@ jwtc = (url, method, token,body) => {
 
         xhr.onreadystatechange = function () {
             //process.on('unhandledRejection', console.dir);
-            console.log('readyState:' + xhr.readyState,'status:'+xhr.status);
+            console.log('readyState:' + xhr.readyState, 'status:' + xhr.status);
 
             //console.log(xhr.responseText);
 
             //認証失敗(405の理由は、サーバーサイド側の問題?)
             if (xhr.status === 405 && xhr.readyState === 3) {
-                
+
                 reject('Different auth token');
                 xhr.abort();
             }
@@ -41,10 +41,10 @@ jwtc = (url, method, token,body) => {
             //問題が何もなかった場合
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const result = JSON.parse(xhr.responseText);
-                
+
                 //console.log(result);
                 resolve(result);
-                
+
             }
         }
 
